@@ -1,6 +1,7 @@
 machine: 
   environment: 
     CONTAINER_NAME: quay.io/deepakprabhakara/alpine-beanstalkd
+    DOCKER_HUB_CONTAINER_NAME: deepakprabhakara/alpine-beanstalkd
   services: 
     - docker
 
@@ -13,6 +14,7 @@ dependencies:
   override: 
     - docker info
     - docker login -e $QUAY_EMAIL -u $QUAY_USER -p $QUAY_PASS quay.io
+    - docker login -e DOCKER_HUB_EMAIL -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
     - |
         VERSION=$(git describe --exact-match --tags 2>/dev/null || git rev-parse --short HEAD)
         sudo docker build -t $CONTAINER_NAME .
@@ -20,6 +22,10 @@ dependencies:
         docker tag -f $CONTAINER_NAME:latest $CONTAINER_NAME:$VERSION
         echo "Tagging as $CONTAINER_NAME:${CIRCLE_BRANCH}"
         docker tag -f $CONTAINER_NAME:latest $CONTAINER_NAME:${CIRCLE_BRANCH}
+        echo "Tagging as $DOCKER_HUB_CONTAINER_NAME:$VERSION"
+        docker tag -f $CONTAINER_NAME:latest $DOCKER_HUB_CONTAINER_NAME:$VERSION
+        echo "Tagging as $DOCKER_HUB_CONTAINER_NAME:${CIRCLE_BRANCH}"
+        docker tag -f $CONTAINER_NAME:latest $DOCKER_HUB_CONTAINER_NAME:${CIRCLE_BRANCH}
 
 test: 
   override: 
@@ -30,3 +36,4 @@ deployment:
     branch: master
     commands: 
       - docker push $CONTAINER_NAME
+      - docker push $DOCKER_HUB_CONTAINER_NAME
