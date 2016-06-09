@@ -26,6 +26,8 @@ dependencies:
         docker tag -f $CONTAINER_NAME:latest $DOCKER_HUB_CONTAINER_NAME:$VERSION
         echo "Tagging as $DOCKER_HUB_CONTAINER_NAME:${CIRCLE_BRANCH}"
         docker tag -f $CONTAINER_NAME:latest $DOCKER_HUB_CONTAINER_NAME:${CIRCLE_BRANCH}
+        echo "Tagging as $DOCKER_HUB_CONTAINER_NAME:latest"
+        docker tag -f $CONTAINER_NAME:latest $DOCKER_HUB_CONTAINER_NAME:latest
 
 test: 
   override: 
