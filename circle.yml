@@ -23,7 +23,7 @@ dependencies:
 
 test: 
   override: 
-    - "docker run -a stdout -a stderr --entrypoint=beanstalkd $CONTAINER_NAME --version"
+    - "docker run -a stdout -a stderr --entrypoint=beanstalkd $CONTAINER_NAME -v"
 
 deployment: 
   prod: 
