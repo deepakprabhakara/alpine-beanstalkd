@@ -1,0 +1,3 @@
+#!/usr/bin/execlineb -P
+
+beanstalkd -p 11300 -u nobody
